@@ -1,10 +1,10 @@
 package mediator
 
 import (
+	"github.com/nicholaspark09/awsgorocket/utils"
 	"github.com/nicholaspark09/pipelineslibrary/models"
 	"github.com/nicholaspark09/pipelineslibrary/models/request/stage"
 	"github.com/nicholaspark09/pipelineslibrary/stageservice"
-	utils2 "github.com/nicholaspark09/pipelineslibrary/utils"
 	"log"
 	"sort"
 )
@@ -58,6 +58,6 @@ func (mediator *PipelineMediator) Fetch(clientId string, clientKey string, pipel
 		}, nil
 	} else {
 		log.Printf("Got an error in trying to fetch stage")
-		return nil, utils2.GenericError{Message: response.Message}
+		return nil, utils.GenericError{Message: response.Message}
 	}
 }
