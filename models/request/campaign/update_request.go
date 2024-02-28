@@ -1,9 +1,9 @@
 package campaign
 
-import "main/model"
+import "github.com/nicholaspark09/pipelineslibrary/models"
 
 type UpdateRequest struct {
-	ClientId  string         `json:"client_id"`
-	ClientKey string         `json:"client_key"`
-	Campaign  model.Campaign `json:"campaign"`
+	ClientId  string          `json:"client_id"`
+	ClientKey string          `json:"client_key"`
+	Campaign  models.Campaign `json:"campaign"`
 }

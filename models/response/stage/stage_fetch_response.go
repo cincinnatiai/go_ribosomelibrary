@@ -1,7 +1,7 @@
 package stage
 
-import "main/model"
+import "github.com/nicholaspark09/pipelineslibrary/models"
 
 type StageFetchResponse struct {
-	Results []*model.Stage `json:"results"`
+	Results []*models.Stage `json:"results"`
 }
