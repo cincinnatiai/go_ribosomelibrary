@@ -1,8 +1,8 @@
 package response
 
-import "main/model"
+import "github.com/cincinnatiai/go_ribosomelibrary/models"
 
 type StepFetchResponse struct {
-	Results      []*model.Step `json:"results"`
-	LastRangeKey *string       `json:"last_range_key"`
+	Results      []*models.Step `json:"results"`
+	LastRangeKey *string        `json:"last_range_key"`
 }
