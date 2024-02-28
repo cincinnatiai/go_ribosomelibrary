@@ -88,6 +88,7 @@ func (repo *PipelineService) CreatePipeline(request request.PipelineCreateReques
 
 func (repo *PipelineService) FetchSimplePipeline(oneRequest request.PipelineFetchOneRequest) response.Response[models.Pipeline] {
 	params := map[string]string{
+		"controller":   "pipelines",
 		"partitionKey": oneRequest.PartitionKey,
 		"rangeKey":     oneRequest.RangeKey,
 	}
@@ -176,7 +177,8 @@ func (repo *PipelineService) FetchPipeline(oneRequest request.PipelineFetchOneRe
 
 func (repo *PipelineService) FetchAll(request request.PipelineFetchRequest) response.Response[response2.PipelineFetchResponse] {
 	params := map[string]string{
-		"action": "fetchAll",
+		"controller": "pipelines",
+		"action":     "fetchAll",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[*response2.PipelineFetchResponse](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(request)
@@ -210,7 +212,8 @@ func (repo *PipelineService) FetchAll(request request.PipelineFetchRequest) resp
 
 func (repo *PipelineService) UpdatePipeline(oneRequest request.PipelineUpdateRequest) response.Response[bool] {
 	params := map[string]string{
-		"action": "update",
+		"controller": "pipelines",
+		"action":     "update",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[*bool](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(oneRequest)
@@ -249,7 +252,8 @@ func (repo *PipelineService) UpdatePipeline(oneRequest request.PipelineUpdateReq
 
 func (repo *PipelineService) DeletePipeline(request request.PipelineDeleteRequest) response.Response[bool] {
 	params := map[string]string{
-		"action": "delete",
+		"controller": "pipelines",
+		"action":     "delete",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[*bool](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(request)
