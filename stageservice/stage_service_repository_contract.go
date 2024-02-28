@@ -1,9 +1,9 @@
 package stageservice
 
 import (
+	"github.com/cincinnatiai/go_ribosomelibrary/models"
+	"github.com/cincinnatiai/go_ribosomelibrary/models/request/stage"
 	response "github.com/nicholaspark09/awsgorocket/model"
-	"github.com/nicholaspark09/pipelineslibrary/models"
-	"github.com/nicholaspark09/pipelineslibrary/models/request/stage"
 )
 
 type StageServiceRepositoryContract interface {

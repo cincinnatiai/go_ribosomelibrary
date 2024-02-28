@@ -1,6 +1,6 @@
 package response
 
-import "github.com/nicholaspark09/pipelineslibrary/models"
+import "github.com/cincinnatiai/go_ribosomelibrary/models"
 
 type CategoryFetchResponse struct {
 	Results      []*models.Category `json:"results"`

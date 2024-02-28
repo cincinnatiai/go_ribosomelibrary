@@ -1,10 +1,10 @@
 package mediator
 
 import (
+	"github.com/cincinnatiai/go_ribosomelibrary/models"
+	"github.com/cincinnatiai/go_ribosomelibrary/models/request/stage"
+	"github.com/cincinnatiai/go_ribosomelibrary/stageservice"
 	"github.com/nicholaspark09/awsgorocket/utils"
-	"github.com/nicholaspark09/pipelineslibrary/models"
-	"github.com/nicholaspark09/pipelineslibrary/models/request/stage"
-	"github.com/nicholaspark09/pipelineslibrary/stageservice"
 	"log"
 	"sort"
 )

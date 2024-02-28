@@ -1,9 +1,9 @@
 package stepservice
 
 import (
+	"github.com/cincinnatiai/go_ribosomelibrary/models"
+	request "github.com/cincinnatiai/go_ribosomelibrary/models/request/step"
 	response "github.com/nicholaspark09/awsgorocket/model"
-	"github.com/nicholaspark09/pipelineslibrary/models"
-	request "github.com/nicholaspark09/pipelineslibrary/models/request/step"
 )
 
 type StepServiceRepositoryContract interface {

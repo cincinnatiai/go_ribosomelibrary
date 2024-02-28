@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/cincinnatiai/go_ribosomelibrary/models"
+	request "github.com/cincinnatiai/go_ribosomelibrary/models/request/step"
+	response2 "github.com/cincinnatiai/go_ribosomelibrary/models/response/step"
 	"github.com/nicholaspark09/awsgorocket/metrics"
 	response "github.com/nicholaspark09/awsgorocket/model"
 	"github.com/nicholaspark09/awsgorocket/network_v2"
 	"github.com/nicholaspark09/awsgorocket/utils"
-	"github.com/nicholaspark09/pipelineslibrary/models"
-	request "github.com/nicholaspark09/pipelineslibrary/models/request/step"
-	response2 "github.com/nicholaspark09/pipelineslibrary/models/response/step"
 	"log"
 )
 

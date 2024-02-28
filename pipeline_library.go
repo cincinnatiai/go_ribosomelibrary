@@ -1,11 +1,11 @@
 package main
 
 import (
+	"github.com/cincinnatiai/go_ribosomelibrary/mediator"
+	"github.com/cincinnatiai/go_ribosomelibrary/pipelineservice"
+	"github.com/cincinnatiai/go_ribosomelibrary/stageservice"
+	"github.com/cincinnatiai/go_ribosomelibrary/stepservice"
 	metrics2 "github.com/nicholaspark09/awsgorocket/metrics"
-	"github.com/nicholaspark09/pipelineslibrary/mediator"
-	"github.com/nicholaspark09/pipelineslibrary/pipelineservice"
-	"github.com/nicholaspark09/pipelineslibrary/stageservice"
-	"github.com/nicholaspark09/pipelineslibrary/stepservice"
 )
 
 type PipelineLibrary struct {

@@ -1,6 +1,6 @@
 package request
 
-import "github.com/nicholaspark09/pipelineslibrary/models"
+import "github.com/cincinnatiai/go_ribosomelibrary/models"
 
 type StepUpdateRequest struct {
 	ClientId  string      `json:"client_id"`

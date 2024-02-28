@@ -1,7 +1,7 @@
 package response
 
 import (
-	"github.com/nicholaspark09/pipelineslibrary/models"
+	"github.com/cincinnatiai/go_ribosomelibrary/models"
 )
 
 type PipelineFetchResponse struct {

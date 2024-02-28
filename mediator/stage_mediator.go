@@ -2,10 +2,10 @@ package mediator
 
 import (
 	"fmt"
+	"github.com/cincinnatiai/go_ribosomelibrary/models"
+	request2 "github.com/cincinnatiai/go_ribosomelibrary/models/request/step"
+	stepservice2 "github.com/cincinnatiai/go_ribosomelibrary/stepservice"
 	"github.com/nicholaspark09/awsgorocket/utils"
-	"github.com/nicholaspark09/pipelineslibrary/models"
-	request2 "github.com/nicholaspark09/pipelineslibrary/models/request/step"
-	stepservice2 "github.com/nicholaspark09/pipelineslibrary/stepservice"
 	"log"
 )
 
