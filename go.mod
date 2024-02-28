@@ -1,4 +1,4 @@
-module github.com/nicholaspark09/pipelineslibrary
+module github.com/cincinnatiai/go_ribosomelibrary
 
 go 1.21.4
 
