@@ -24,7 +24,7 @@ type CampaignService struct {
 	metricsManager metrics2.MetricsManagerContract
 }
 
-func ProvideCampaignRepository(
+func ProvideCampaignService(
 	endpoint string,
 	apiKey string,
 	clientId string,
