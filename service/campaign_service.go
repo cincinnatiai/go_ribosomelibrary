@@ -17,8 +17,8 @@ import (
 type CampaignService struct {
 	Endpoint       string
 	ApiKey         string
-	clientId       string
-	clientKey      string
+	ClientId       string
+	ClientKey      string
 	ContentType    string
 	Controller     string
 	metricsManager metrics2.MetricsManagerContract
@@ -33,8 +33,8 @@ func ProvideCampaignService(
 	return &CampaignService{
 		Endpoint:       endpoint,
 		ApiKey:         apiKey,
-		clientId:       clientId,
-		clientKey:      clientKey,
+		ClientId:       clientId,
+		ClientKey:      clientKey,
 		ContentType:    "application/json",
 		Controller:     "campaigns",
 		metricsManager: metricsManger,
@@ -48,8 +48,8 @@ func (repo *CampaignService) Create(pipelinePartitionKey string, pipelineRangeKe
 	}
 	manager := network_v2.ProvideNetworkManagerV2[models.Campaign](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(campaign.CreateRequest{
-		ClientId:             repo.clientId,
-		ClientKey:            repo.clientKey,
+		ClientId:             repo.ClientId,
+		ClientKey:            repo.ClientKey,
 		PipelinePartitionKey: pipelinePartitionKey,
 		PipelineRangeKey:     pipelineRangeKey,
 		Title:                title,
@@ -91,8 +91,8 @@ func (repo *CampaignService) FetchAllByUser(identityId string) response.Response
 	}
 	manager := network_v2.ProvideNetworkManagerV2[[]*models.Campaign](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(campaign.FetchByUser{
-		ClientId:  repo.clientId,
-		ClientKey: repo.clientKey,
+		ClientId:  repo.ClientId,
+		ClientKey: repo.ClientKey,
 		UserId:    identityId,
 	})
 	var statusCode int
@@ -130,8 +130,8 @@ func (repo *CampaignService) Fetch(partitionKey string, rangeKey string) respons
 		"controller":   "campaigns",
 		"partitionKey": partitionKey,
 		"rangeKey":     rangeKey,
-		"clientId":     repo.clientId,
-		"clientKey":    repo.clientKey,
+		"ClientId":     repo.ClientId,
+		"ClientKey":    repo.ClientKey,
 	}
 	manager := network_v2.ProvideNetworkManagerV2[models.Campaign](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	callName := "CampaignService.FetchOne"
@@ -160,8 +160,8 @@ func (repo *CampaignService) FetchAll(pipelinePartitionKey string, pipelineRange
 	}
 	manager := network_v2.ProvideNetworkManagerV2[campaign2.FetchAllResponse](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(campaign.FetchAllRequest{
-		ClientId:             repo.clientId,
-		ClientKey:            repo.clientKey,
+		ClientId:             repo.ClientId,
+		ClientKey:            repo.ClientKey,
 		PipelinePartitionKey: pipelinePartitionKey,
 		PipelineRangeKey:     pipelineRangeKey,
 		LastRangeKey:         lastRangeKey,
@@ -203,8 +203,8 @@ func (repo *CampaignService) Update(model models.Campaign) response.Response[boo
 	}
 	manager := network_v2.ProvideNetworkManagerV2[*bool](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(campaign.UpdateRequest{
-		ClientId:  repo.clientId,
-		ClientKey: repo.clientKey,
+		ClientId:  repo.ClientId,
+		ClientKey: repo.ClientKey,
 		Campaign:  model,
 	})
 	var result = false
@@ -243,8 +243,8 @@ func (repo *CampaignService) Delete(partitionKey string, rangeKey string, isHard
 	}
 	manager := network_v2.ProvideNetworkManagerV2[*bool](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(campaign.DeleteRequest{
-		ClientId:     repo.clientId,
-		ClientKey:    repo.clientKey,
+		ClientId:     repo.ClientId,
+		ClientKey:    repo.ClientKey,
 		PartitionKey: partitionKey,
 		RangeKey:     rangeKey,
 		IsHardDelete: isHardDelete != nil && *isHardDelete == true,

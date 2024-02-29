@@ -51,8 +51,8 @@ func (library *PipelineLibrary) ProvideCampaignService() service.CampaignService
 	return &service.CampaignService{
 		Endpoint:       library.pipelineFacadeUrl,
 		ApiKey:         library.pipelineFacadeKey,
-		clientId:       library.clientId,
-		clientKey:      library.clientKey,
+		ClientId:       library.clientId,
+		ClientKey:      library.clientKey,
 		ContentType:    "application/json",
 		Controller:     "campaigns",
 		metricsManager: library.metricsManager,
