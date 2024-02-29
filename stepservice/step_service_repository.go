@@ -32,7 +32,8 @@ func ProvideStepRepository(pfsEndpoint string, apiKey string, metricsManger metr
 
 func (repo *StepServiceRepository) Create(request request.StepCreateRequest) response.Response[models.Step] {
 	params := map[string]string{
-		"action": "create",
+		"controller": "steps",
+		"action":     "create",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[*models.Step](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json.Marshal(request)
@@ -66,6 +67,7 @@ func (repo *StepServiceRepository) Create(request request.StepCreateRequest) res
 
 func (repo *StepServiceRepository) Fetch(request request.StepFetchOneRequest) response.Response[models.Step] {
 	params := map[string]string{
+		"controller":   "steps",
 		"partitionKey": request.PartitionKey,
 		"rangeKey":     request.RangeKey,
 	}
@@ -91,7 +93,8 @@ func (repo *StepServiceRepository) Fetch(request request.StepFetchOneRequest) re
 
 func (repo *StepServiceRepository) FetchAll(request request.StepFetchRequest) response.Response[[]*models.Step] {
 	params := map[string]string{
-		"action": "fetchAll",
+		"controller": "steps",
+		"action":     "fetchAll",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[response2.StepFetchResponse](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json.Marshal(request)
@@ -124,7 +127,8 @@ func (repo *StepServiceRepository) FetchAll(request request.StepFetchRequest) re
 
 func (repo *StepServiceRepository) Update(request request.StepUpdateRequest) response.Response[bool] {
 	params := map[string]string{
-		"action": "update",
+		"controller": "steps",
+		"action":     "update",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[bool](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json.Marshal(request.Step)
@@ -158,7 +162,8 @@ func (repo *StepServiceRepository) Update(request request.StepUpdateRequest) res
 
 func (repo *StepServiceRepository) Delete(request request.StepDeleteRequest) response.Response[bool] {
 	params := map[string]string{
-		"action": "delete",
+		"controller": "steps",
+		"action":     "delete",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[bool](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json.Marshal(request)

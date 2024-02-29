@@ -31,7 +31,8 @@ func ProvideStageRepository(endpoint string, apiKey string, metricsManger metric
 
 func (repo *StageServiceRepository) Create(request stage.StageCreateRequest) response.Response[models.Stage] {
 	params := map[string]string{
-		"action": "create",
+		"controller": "stages",
+		"action":     "create",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[models.Stage](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(request)
@@ -65,6 +66,7 @@ func (repo *StageServiceRepository) Create(request stage.StageCreateRequest) res
 
 func (repo *StageServiceRepository) Fetch(request stage.FetchOneRequest) response.Response[models.Stage] {
 	params := map[string]string{
+		"controller":   "stages",
 		"partitionKey": request.PartitionKey,
 		"rangeKey":     request.RangeKey,
 	}
@@ -90,7 +92,8 @@ func (repo *StageServiceRepository) Fetch(request stage.FetchOneRequest) respons
 
 func (repo *StageServiceRepository) FetchAll(request stage.StageFetchAllRequest) response.Response[[]*models.Stage] {
 	params := map[string]string{
-		"action": "fetchAll",
+		"controller": "stages",
+		"action":     "fetchAll",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[*[]*models.Stage](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(request)
@@ -126,7 +129,8 @@ func (repo *StageServiceRepository) FetchAll(request stage.StageFetchAllRequest)
 
 func (repo *StageServiceRepository) Update(request stage.UpdateRequest) response.Response[bool] {
 	params := map[string]string{
-		"action": "update",
+		"controller": "stages",
+		"action":     "update",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[*bool](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(request.Stage)
@@ -161,7 +165,8 @@ func (repo *StageServiceRepository) Update(request stage.UpdateRequest) response
 
 func (repo *StageServiceRepository) Delete(request stage.DeleteRequest) response.Response[bool] {
 	params := map[string]string{
-		"action": "delete",
+		"controller": "stages",
+		"action":     "delete",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[*bool](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(request)

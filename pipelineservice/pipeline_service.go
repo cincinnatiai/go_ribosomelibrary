@@ -54,7 +54,8 @@ func ProvidePipelineService(
 
 func (repo *PipelineService) CreatePipeline(request request.PipelineCreateRequest) response.Response[models.Pipeline] {
 	params := map[string]string{
-		"action": "create",
+		"controller": "pipelines",
+		"action":     "create",
 	}
 	manager := network_v2.ProvideNetworkManagerV2[*models.Pipeline](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	bytes, err := json2.Marshal(request)
