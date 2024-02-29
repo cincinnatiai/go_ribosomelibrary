@@ -13,4 +13,5 @@ type Campaign struct {
 	Modified        string `json:"modified"`
 	Status          string `json:"status"`
 	UserId          string `json:"user_id"`
+	DueBy           string `json:"due_by"`
 }

@@ -1,4 +1,4 @@
-package main
+package library
 
 import (
 	"github.com/cincinnatiai/go_ribosomelibrary/mediator"
