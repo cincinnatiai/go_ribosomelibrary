@@ -21,7 +21,7 @@ type CampaignService struct {
 	ClientKey      string
 	ContentType    string
 	Controller     string
-	metricsManager metrics2.MetricsManagerContract
+	MetricsManager metrics2.MetricsManagerContract
 }
 
 func ProvideCampaignService(
@@ -37,7 +37,7 @@ func ProvideCampaignService(
 		ClientKey:      clientKey,
 		ContentType:    "application/json",
 		Controller:     "campaigns",
-		metricsManager: metricsManger,
+		MetricsManager: metricsManger,
 	}
 }
 
@@ -65,7 +65,7 @@ func (repo *CampaignService) Create(pipelinePartitionKey string, pipelineRangeKe
 	}
 	callName := "CampaignService.CreateStage"
 	log.Printf("Trying to make a network call to Stages")
-	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.metricsManager, func() (*models.Campaign, *error) {
+	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*models.Campaign, *error) {
 		callResponse, callError := network_v2.Post[models.Campaign](manager, bytes)
 		if callError != nil {
 			return nil, &callError
@@ -104,7 +104,7 @@ func (repo *CampaignService) FetchAllByUser(identityId string) response.Response
 	}
 	callName := "CampaignService.FetchAllByUser"
 	log.Printf("Trying to make a network call to Stages")
-	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.metricsManager, func() (*[]*models.Campaign, *error) {
+	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*[]*models.Campaign, *error) {
 		callResponse, callError := network_v2.Post[[]*models.Campaign](manager, bytes)
 		if callError != nil {
 			log.Printf("Got an error in calling campaigns: %s", callError.Error())
@@ -135,7 +135,7 @@ func (repo *CampaignService) Fetch(partitionKey string, rangeKey string) respons
 	}
 	manager := network_v2.ProvideNetworkManagerV2[models.Campaign](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	callName := "CampaignService.FetchOne"
-	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.metricsManager, func() (*models.Campaign, *error) {
+	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*models.Campaign, *error) {
 		callResponse, err := network_v2.Get[models.Campaign](manager)
 		if err != nil {
 			return nil, &err
@@ -175,7 +175,7 @@ func (repo *CampaignService) FetchAll(pipelinePartitionKey string, pipelineRange
 	}
 	callName := "CampaignService.FetchAllStage"
 	log.Printf("Trying to make a network call to Stages")
-	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.metricsManager, func() (*campaign2.FetchAllResponse, *error) {
+	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*campaign2.FetchAllResponse, *error) {
 		callResponse, callError := network_v2.Post[campaign2.FetchAllResponse](manager, bytes)
 		if callError != nil {
 			log.Printf("Got an error in calling campaigns: %s", callError.Error())
@@ -217,7 +217,7 @@ func (repo *CampaignService) Update(model models.Campaign) response.Response[boo
 	}
 	callName := "CampaignService.UpdateStage"
 	log.Printf("Trying to make a network call to Stages")
-	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.metricsManager, func() (*bool, *error) {
+	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*bool, *error) {
 		callResponse, callError := network_v2.Post[*bool](manager, bytes)
 		if callError != nil {
 			return nil, &callError
@@ -258,7 +258,7 @@ func (repo *CampaignService) Delete(partitionKey string, rangeKey string, isHard
 		return response.Response[bool]{Data: &result, StatusCode: statusCode, Message: errorMessage}
 	}
 	callName := "CampaignService.DeleteStage"
-	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.metricsManager, func() (*bool, *error) {
+	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*bool, *error) {
 		callResponse, callError := network_v2.Post[*bool](manager, bytes)
 		if callError != nil {
 			return nil, &callError

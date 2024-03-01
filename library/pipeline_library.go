@@ -55,6 +55,6 @@ func (library *PipelineLibrary) ProvideCampaignService() service.CampaignService
 		ClientKey:      library.clientKey,
 		ContentType:    "application/json",
 		Controller:     "campaigns",
-		metricsManager: library.metricsManager,
+		MetricsManager: library.metricsManager,
 	}
 }
