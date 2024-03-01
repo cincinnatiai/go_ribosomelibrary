@@ -63,8 +63,8 @@ func (repo *CampaignService) Create(pipelinePartitionKey string, pipelineRangeKe
 		statusCode = 500
 		return response.Response[models.Campaign]{Data: nil, StatusCode: statusCode, Message: errorMessage}
 	}
-	callName := "CampaignService.CreateStage"
-	log.Printf("Trying to make a network call to Stages")
+	callName := "CampaignService.Create"
+	log.Printf("Trying to make a network call to campaign")
 	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*models.Campaign, *error) {
 		callResponse, callError := network_v2.Post[models.Campaign](manager, bytes)
 		if callError != nil {
@@ -103,7 +103,7 @@ func (repo *CampaignService) FetchAllByUser(identityId string) response.Response
 		return response.Response[[]*models.Campaign]{Data: nil, StatusCode: statusCode, Message: errorMessage}
 	}
 	callName := "CampaignService.FetchAllByUser"
-	log.Printf("Trying to make a network call to Stages")
+	log.Printf("Trying to make a network call to campaigns")
 	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*[]*models.Campaign, *error) {
 		callResponse, callError := network_v2.Post[[]*models.Campaign](manager, bytes)
 		if callError != nil {
@@ -130,8 +130,8 @@ func (repo *CampaignService) Fetch(partitionKey string, rangeKey string) respons
 		"controller":   "campaigns",
 		"partitionKey": partitionKey,
 		"rangeKey":     rangeKey,
-		"ClientId":     repo.ClientId,
-		"ClientKey":    repo.ClientKey,
+		"clientId":     repo.ClientId,
+		"clientKey":    repo.ClientKey,
 	}
 	manager := network_v2.ProvideNetworkManagerV2[models.Campaign](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	callName := "CampaignService.FetchOne"
@@ -173,8 +173,8 @@ func (repo *CampaignService) FetchAll(pipelinePartitionKey string, pipelineRange
 		statusCode = 400
 		return response.Response[campaign2.FetchAllResponse]{Data: nil, StatusCode: statusCode, Message: errorMessage}
 	}
-	callName := "CampaignService.FetchAllStage"
-	log.Printf("Trying to make a network call to Stages")
+	callName := "CampaignService.FetchAll"
+	log.Printf("Trying to make a network call to s")
 	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*campaign2.FetchAllResponse, *error) {
 		callResponse, callError := network_v2.Post[campaign2.FetchAllResponse](manager, bytes)
 		if callError != nil {
@@ -215,8 +215,9 @@ func (repo *CampaignService) Update(model models.Campaign) response.Response[boo
 		statusCode = 400
 		return response.Response[bool]{Data: &result, StatusCode: statusCode, Message: errorMessage}
 	}
-	callName := "CampaignService.UpdateStage"
-	log.Printf("Trying to make a network call to Stages")
+	callName        text = stringResource(id = R.string.due_date) +"2/21/24",
+	:= "CampaignService.Update"
+	log.Printf("Trying to make a network call to Campaigns")
 	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*bool, *error) {
 		callResponse, callError := network_v2.Post[*bool](manager, bytes)
 		if callError != nil {
@@ -236,7 +237,7 @@ func (repo *CampaignService) Update(model models.Campaign) response.Response[boo
 	return response.Response[bool]{Data: networkResponse, StatusCode: 200}
 }
 
-func (repo *CampaignService) Delete(partitionKey string, rangeKey string, isHardDelete *bool) response.Response[bool] {
+func (repo *CampaignService) Delete(partitionKey string, rangeKey string, isHardDelete bool) response.Response[bool] {
 	params := map[string]string{
 		"controller": "campaigns",
 		"action":     "delete",
@@ -247,7 +248,7 @@ func (repo *CampaignService) Delete(partitionKey string, rangeKey string, isHard
 		ClientKey:    repo.ClientKey,
 		PartitionKey: partitionKey,
 		RangeKey:     rangeKey,
-		IsHardDelete: isHardDelete != nil && *isHardDelete == true,
+		IsHardDelete: isHardDelete,
 	})
 	var result = false
 	var statusCode int
@@ -257,7 +258,7 @@ func (repo *CampaignService) Delete(partitionKey string, rangeKey string, isHard
 		statusCode = 400
 		return response.Response[bool]{Data: &result, StatusCode: statusCode, Message: errorMessage}
 	}
-	callName := "CampaignService.DeleteStage"
+	callName := "CampaignService.Delete"
 	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*bool, *error) {
 		callResponse, callError := network_v2.Post[*bool](manager, bytes)
 		if callError != nil {

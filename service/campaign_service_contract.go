@@ -12,5 +12,5 @@ type CampaignServiceContract interface {
 	FetchAll(pipelinePartitionKey string, pipelineRangeKey string, lastRangeKey *string) response.Response[campaign2.FetchAllResponse]
 	FetchAllByUser(identityId string) response.Response[[]*models.Campaign]
 	Update(campaign models.Campaign) response.Response[bool]
-	Delete(partitionKey string, rangeKey string, isHardDelete *bool) response.Response[bool]
+	Delete(partitionKey string, rangeKey string, isHardDelete bool) response.Response[bool]
 }
