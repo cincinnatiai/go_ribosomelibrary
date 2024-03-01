@@ -215,8 +215,7 @@ func (repo *CampaignService) Update(model models.Campaign) response.Response[boo
 		statusCode = 400
 		return response.Response[bool]{Data: &result, StatusCode: statusCode, Message: errorMessage}
 	}
-	callName        text = stringResource(id = R.string.due_date) +"2/21/24",
-	:= "CampaignService.Update"
+	callName := "CampaignService.Update"
 	log.Printf("Trying to make a network call to Campaigns")
 	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*bool, *error) {
 		callResponse, callError := network_v2.Post[*bool](manager, bytes)
