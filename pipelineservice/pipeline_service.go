@@ -92,6 +92,8 @@ func (repo *PipelineService) FetchSimplePipeline(oneRequest request.PipelineFetc
 		"controller":   "pipelines",
 		"partitionKey": oneRequest.PartitionKey,
 		"rangeKey":     oneRequest.RangeKey,
+		"clientId":     oneRequest.ClientId,
+		"clientKey":    oneRequest.ClientKey,
 	}
 	cacheKey := buildCacheKey(oneRequest.PartitionKey, oneRequest.RangeKey)
 	value, ok := repo.cache[cacheKey]
