@@ -13,8 +13,6 @@ import (
 	"github.com/nicholaspark09/awsgorocket/network_v2"
 	"github.com/nicholaspark09/awsgorocket/utils"
 	"log"
-	"sort"
-	"sync"
 )
 
 type PipelineServiceContract interface {
@@ -121,61 +119,33 @@ func (repo *PipelineService) FetchSimplePipeline(oneRequest request.PipelineFetc
 }
 
 func (repo *PipelineService) FetchPipeline(oneRequest request.PipelineFetchOneRequest) response.Response[models.PipelineWithAllModels] {
-	networkResponse := repo.FetchSimplePipeline(oneRequest)
-	// Mediate the response
-	consolidatedResponse, err := repo.mediator.Fetch(oneRequest.ClientId, oneRequest.ClientKey, *networkResponse.Data)
-	var statusCode int
-	if err != nil {
-		statusCode = 500
-		errorMessage := "Error in fetching and wrapping stages to Pipeline"
-		log.Printf(errorMessage)
+	params := map[string]string{
+		"controller":   "pipelines",
+		"clientId":     oneRequest.ClientId,
+		"clientKey":    oneRequest.ClientKey,
+		"partitionKey": oneRequest.PartitionKey,
+		"rangeKey":     oneRequest.RangeKey,
+	}
+	manager := network_v2.ProvideNetworkManagerV2[*models.PipelineWithAllModels](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
+	callName := "PipelineService.FetchPipeline"
+	log.Printf("Trying to make a network call to Pipelines")
+	networkResponse, networkError := metrics.MeasureTimeWithError(callName, repo.metricsManager, func() (*models.PipelineWithAllModels, *error) {
+		callResponse, callError := network_v2.Get[*models.PipelineWithAllModels](manager)
+		if callError != nil {
+			return nil, &callError
+		}
+		return *callResponse, nil
+	})
+	var genericError utils.GenericError
+	if networkError != nil && errors.As(*networkError, &genericError) {
+		return response.Response[models.PipelineWithAllModels]{Data: nil, StatusCode: genericError.StatusCode, Message: genericError.Message}
+	}
+	if networkResponse == nil {
+		statusCode := 500
+		errorMessage := "Error in making network call"
 		return response.Response[models.PipelineWithAllModels]{Data: nil, StatusCode: statusCode, Message: errorMessage}
 	}
-	var stagesWithSteps []*models.StageWithStep
-	if len(consolidatedResponse.Stages) > 0 {
-		var waitingItems sync.WaitGroup
-		for i, _ := range consolidatedResponse.Stages {
-			waitingItems.Add(1)
-			go func(s *models.Stage) {
-				defer waitingItems.Done()
-				log.Printf("Trying to make fetch Stage: %s, PipelineId: %s, stage", s.Id, consolidatedResponse.Id)
-				mediatorResponse, stageError := repo.stageMediator.Fetch(oneRequest.ClientId, oneRequest.ClientKey, consolidatedResponse.Id, s)
-				if stageError != nil {
-					log.Printf("Error in fetching through stage mediator: %s", stageError.Error())
-				} else if mediatorResponse != nil && &mediatorResponse != nil {
-					sort.Slice(mediatorResponse.Steps, func(i, j int) bool {
-						return mediatorResponse.Steps[i].RangeKey < mediatorResponse.Steps[j].RangeKey
-					})
-					stagesWithSteps = append(stagesWithSteps, mediatorResponse)
-				}
-			}(consolidatedResponse.Stages[i])
-		}
-		waitingItems.Wait()
-	}
-	if stagesWithSteps == nil {
-		log.Printf("Stage with steps was nil")
-		stagesWithSteps = make([]*models.StageWithStep, 0)
-	} else {
-		log.Printf("Stage with steps was not nil")
-	}
-	sort.Slice(stagesWithSteps, func(i, j int) bool {
-		return stagesWithSteps[i].RangeKey < stagesWithSteps[j].RangeKey
-	})
-	pipelineWithAllModels := models.PipelineWithAllModels{
-		Id:              consolidatedResponse.Id,
-		PartitionKey:    consolidatedResponse.PartitionKey,
-		RangeKey:        consolidatedResponse.RangeKey,
-		Title:           consolidatedResponse.Title,
-		Description:     consolidatedResponse.Description,
-		Created:         consolidatedResponse.Created,
-		Modified:        consolidatedResponse.Modified,
-		Status:          consolidatedResponse.Status,
-		IsPublic:        consolidatedResponse.IsPublic,
-		AuxiliarHashKey: consolidatedResponse.AuxiliarHashKey,
-		Stages:          stagesWithSteps,
-		Type:            consolidatedResponse.Type,
-	}
-	return response.Response[models.PipelineWithAllModels]{StatusCode: 200, Data: &pipelineWithAllModels}
+	return response.Response[models.PipelineWithAllModels]{Data: networkResponse, StatusCode: 200}
 }
 
 func (repo *PipelineService) FetchAll(request request.PipelineFetchRequest) response.Response[response2.PipelineFetchResponse] {
