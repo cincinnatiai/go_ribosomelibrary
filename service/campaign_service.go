@@ -41,7 +41,7 @@ func ProvideCampaignService(
 	}
 }
 
-func (repo *CampaignService) Create(pipelinePartitionKey string, pipelineRangeKey string, title string, description string, secondaryId string) response.Response[models.Campaign] {
+func (repo *CampaignService) Create(pipelinePartitionKey string, pipelineRangeKey string, title string, description string, secondaryId string, creatorUserId string) response.Response[models.Campaign] {
 	params := map[string]string{
 		"controller": repo.Controller,
 		"action":     "create",
@@ -55,6 +55,7 @@ func (repo *CampaignService) Create(pipelinePartitionKey string, pipelineRangeKe
 		Title:                title,
 		Description:          description,
 		SecondaryId:          secondaryId,
+		CreatorUserId:        creatorUserId,
 	})
 	var statusCode int
 	if err != nil {

@@ -8,4 +8,5 @@ type CreateRequest struct {
 	Title                string `json:"title"`
 	Description          string `json:"description"`
 	SecondaryId          string `json:"secondary_id"`
+	CreatorUserId        string `json:"creator_user_id"`
 }

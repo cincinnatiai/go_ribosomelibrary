@@ -7,7 +7,7 @@ import (
 )
 
 type CampaignServiceContract interface {
-	Create(pipelinePartitionKey string, pipelineRangeKey string, title string, description string, secondaryId string) response.Response[models.Campaign]
+	Create(pipelinePartitionKey string, pipelineRangeKey string, title string, description string, secondaryId string, creatorUserId string) response.Response[models.Campaign]
 	Fetch(partitionKey string, rangeKey string) response.Response[models.Campaign]
 	FetchAll(pipelinePartitionKey string, pipelineRangeKey string, lastRangeKey *string) response.Response[campaign2.FetchAllResponse]
 	FetchAllByUser(identityId string) response.Response[[]*models.Campaign]
