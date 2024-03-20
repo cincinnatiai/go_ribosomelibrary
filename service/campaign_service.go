@@ -126,7 +126,7 @@ func (repo *CampaignService) FetchAllByUser(identityId string) response.Response
 	return response.Response[[]*models.Campaign]{Data: networkResponse, StatusCode: 200}
 }
 
-func (repo *CampaignService) Fetch(partitionKey string, rangeKey string) response.Response[models.Campaign] {
+func (repo *CampaignService) Fetch(partitionKey string, rangeKey string) response.Response[models.CampaignWithStatus] {
 	params := map[string]string{
 		"controller":   "campaigns",
 		"partitionKey": partitionKey,
@@ -134,10 +134,10 @@ func (repo *CampaignService) Fetch(partitionKey string, rangeKey string) respons
 		"clientId":     repo.ClientId,
 		"clientKey":    repo.ClientKey,
 	}
-	manager := network_v2.ProvideNetworkManagerV2[models.Campaign](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
+	manager := network_v2.ProvideNetworkManagerV2[models.CampaignWithStatus](repo.Endpoint, params, &repo.ApiKey, &repo.ContentType)
 	callName := "CampaignService.FetchOne"
-	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*models.Campaign, *error) {
-		callResponse, err := network_v2.Get[models.Campaign](manager)
+	networkResponse, networkError := metrics2.MeasureTimeWithError(callName, repo.MetricsManager, func() (*models.CampaignWithStatus, *error) {
+		callResponse, err := network_v2.Get[models.CampaignWithStatus](manager)
 		if err != nil {
 			return nil, &err
 		}
@@ -145,13 +145,13 @@ func (repo *CampaignService) Fetch(partitionKey string, rangeKey string) respons
 	})
 	var genericError utils.GenericError
 	if networkError != nil && errors.As(*networkError, &genericError) {
-		return response.Response[models.Campaign]{Data: nil, StatusCode: genericError.StatusCode, Message: genericError.Message}
+		return response.Response[models.CampaignWithStatus]{Data: nil, StatusCode: genericError.StatusCode, Message: genericError.Message}
 	}
 	if networkResponse == nil {
 		errorMessage := "Error in making network call"
-		return response.Response[models.Campaign]{Data: nil, StatusCode: 500, Message: errorMessage}
+		return response.Response[models.CampaignWithStatus]{Data: nil, StatusCode: 500, Message: errorMessage}
 	}
-	return response.Response[models.Campaign]{Data: networkResponse, StatusCode: 200}
+	return response.Response[models.CampaignWithStatus]{Data: networkResponse, StatusCode: 200}
 }
 
 func (repo *CampaignService) FetchAll(pipelinePartitionKey string, pipelineRangeKey string, lastRangeKey *string) response.Response[campaign2.FetchAllResponse] {
