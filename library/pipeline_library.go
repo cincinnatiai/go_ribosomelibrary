@@ -5,6 +5,7 @@ import (
 	"github.com/cincinnatiai/go_ribosomelibrary/pipelineservice"
 	"github.com/cincinnatiai/go_ribosomelibrary/service"
 	"github.com/cincinnatiai/go_ribosomelibrary/stageservice"
+	"github.com/cincinnatiai/go_ribosomelibrary/stepinputservice"
 	"github.com/cincinnatiai/go_ribosomelibrary/stepservice"
 	metrics2 "github.com/nicholaspark09/awsgorocket/metrics"
 )
@@ -48,13 +49,9 @@ func (library *PipelineLibrary) ProvideStepService() stepservice.StepServiceRepo
 }
 
 func (library *PipelineLibrary) ProvideCampaignService() service.CampaignServiceContract {
-	return &service.CampaignService{
-		Endpoint:       library.pipelineFacadeUrl,
-		ApiKey:         library.pipelineFacadeKey,
-		ClientId:       library.clientId,
-		ClientKey:      library.clientKey,
-		ContentType:    "application/json",
-		Controller:     "campaigns",
-		MetricsManager: library.metricsManager,
-	}
+	return service.ProvideCampaignService(library.pipelineFacadeUrl, library.pipelineFacadeKey, library.clientId, library.clientKey, library.metricsManager)
+}
+
+func (library *PipelineLibrary) ProvideStepInputService() stepinputservice.StepInputServiceContract {
+	return stepinputservice.ProvideStepInputService(library.pipelineFacadeUrl, library.pipelineFacadeKey, library.clientId, library.clientKey, library.metricsManager)
 }
