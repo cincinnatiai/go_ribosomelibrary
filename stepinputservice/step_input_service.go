@@ -169,7 +169,9 @@ func (s StepInputService) FetchAllByUser(identityId string, lastRangeKey *string
 		"action":     "fetchByUser",
 	}
 	fetchRequest := request.StepInputFetchByUserRequest{
-		UserId: identityId,
+		ClientId:  s.ClientId,
+		ClientKey: s.ClientKey,
+		UserId:    identityId,
 	}
 	bytes, err := json.Marshal(fetchRequest)
 	if err != nil {
