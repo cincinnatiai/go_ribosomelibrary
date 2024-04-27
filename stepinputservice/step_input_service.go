@@ -142,6 +142,8 @@ func (s StepInputService) Fetch(partitionKey string, rangeKey string) response.R
 		"controller":   s.Controller,
 		"partitionKey": partitionKey,
 		"rangeKey":     rangeKey,
+		"clientId":     s.ClientId,
+		"clientKey":    s.ClientKey,
 	}
 	manager := network_v2.ProvideNetworkManagerV2[models.StepInput](s.Endpoint, params, &s.ApiKey, &s.ContentType)
 	callName := "StepInputService.FetchOne"
