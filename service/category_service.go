@@ -122,7 +122,11 @@ func (categoryService *CategoryService) FetchAll(lastRangeKey *string) response.
 		return response.Response[response2.CategoryFetchResponse]{Data: nil, StatusCode: genericError.StatusCode, Message: genericError.Message}
 	}
 	if networkResponse == nil {
-		return response.Response[response2.CategoryFetchResponse]{Data: nil, StatusCode: 500, Message: "Error in making network call"}
+		log.Printf("CategoryService.FetchAll - No response found for %s. Returning empty list", fetchRequest.ClientId)
+		return response.Response[response2.CategoryFetchResponse]{Data: &response2.CategoryFetchResponse{
+			Results:      make([]*models.Category, 0),
+			LastRangeKey: nil,
+		}, StatusCode: 200}
 	}
 	return response.Response[response2.CategoryFetchResponse]{Data: networkResponse, StatusCode: 200}
 }
