@@ -55,3 +55,7 @@ func (library *PipelineLibrary) ProvideCampaignService() service.CampaignService
 func (library *PipelineLibrary) ProvideStepInputService() stepinputservice.StepInputServiceContract {
 	return stepinputservice.ProvideStepInputService(library.pipelineFacadeUrl, library.pipelineFacadeKey, library.clientId, library.clientKey, library.metricsManager)
 }
+
+func (library *PipelineLibrary) ProvideCategoryService() service.CategoryServiceContract {
+	return service.ProvideCategoryService(library.pipelineFacadeUrl, library.pipelineFacadeKey, library.clientId, library.clientKey, library.metricsManager)
+}

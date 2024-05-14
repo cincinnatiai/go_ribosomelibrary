@@ -14,6 +14,8 @@ type CampaignWithStatus struct {
 	Status         string         `json:"status"`
 	UserId         string         `json:"user_id"`
 	DueBy          string         `json:"due_by"`
+	EventCount     int            `json:"event_count"`
+	TokenCount     int            `json:"token_count"`
 	StageStatuses  []*StageStatus `json:"stage_statuses"`
 }
 
@@ -30,5 +32,7 @@ func Convert(campaign Campaign, statuses []*StageStatus) CampaignWithStatus {
 		UserId:         campaign.UserId,
 		DueBy:          campaign.DueBy,
 		StageStatuses:  statuses,
+		EventCount:     campaign.EventCount,
+		TokenCount:     campaign.TokenCount,
 	}
 }

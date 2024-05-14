@@ -72,10 +72,13 @@ func (s StepInputService) Update(model models.StepInput) response.Response[bool]
 	params := map[string]string{
 		"controller": s.Controller,
 		"action":     "update",
-		"clientId":   s.ClientId,
 	}
 	manager := network_v2.ProvideNetworkManagerV2[bool](s.Endpoint, params, &s.ApiKey, &s.ContentType)
-	bytes, err := json.Marshal(model)
+	bytes, err := json.Marshal(request.StepInputUpdateRequest{
+		ClientId:  s.ClientId,
+		ClientKey: s.ClientKey,
+		StepInput: model,
+	})
 	var result = false
 	if err != nil {
 		log.Printf("StepInputService.UpdateFailure: Failed to parse input: %s", err)
@@ -139,6 +142,8 @@ func (s StepInputService) Fetch(partitionKey string, rangeKey string) response.R
 		"controller":   s.Controller,
 		"partitionKey": partitionKey,
 		"rangeKey":     rangeKey,
+		"clientId":     s.ClientId,
+		"clientKey":    s.ClientKey,
 	}
 	manager := network_v2.ProvideNetworkManagerV2[models.StepInput](s.Endpoint, params, &s.ApiKey, &s.ContentType)
 	callName := "StepInputService.FetchOne"
